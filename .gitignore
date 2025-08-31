@@ -1,0 +1,17 @@
+# Node
+node_modules
+npm-debug.log*
+pnpm-lock.yaml
+yarn.lock
+
+# Build outputs
+dist
+build
+
+# Env
+.env
+
+# OS / editor junk
+.DS_Store
+*.swp
+EOF

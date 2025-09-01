@@ -12,10 +12,13 @@ export default function App() {
   const [transactions, setTransactions] = useState([]);
   const [page, setPage] = useState("home"); // 👈 track current page
 
+  // ✅ Backend URL from env
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // ✅ Handle Google Login
   const handleLogin = async (googleResponse) => {
     try {
-      const res = await fetch("http://localhost:4000/auth/google", {
+      const res = await fetch(`${API_URL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: googleResponse.credential }),
@@ -45,7 +48,7 @@ export default function App() {
   const fetchTransactions = async () => {
     const token = localStorage.getItem("appToken");
     if (!token) return;
-    const res = await fetch("http://localhost:4000/api/transactions", {
+    const res = await fetch(`${API_URL}/api/transactions`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -59,7 +62,7 @@ export default function App() {
   // ✅ Add, Edit, Delete Transaction
   const addTransaction = async (txn) => {
     const token = localStorage.getItem("appToken");
-    await fetch("http://localhost:4000/api/transactions", {
+    await fetch(`${API_URL}/api/transactions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +75,7 @@ export default function App() {
 
   const editTransaction = async (id, updatedData) => {
     const token = localStorage.getItem("appToken");
-    await fetch(`http://localhost:4000/api/transactions/${id}`, {
+    await fetch(`${API_URL}/api/transactions/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +91,7 @@ export default function App() {
       return;
     }
     const token = localStorage.getItem("appToken");
-    await fetch(`http://localhost:4000/api/transactions/${id}`, {
+    await fetch(`${API_URL}/api/transactions/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -102,12 +105,15 @@ export default function App() {
       ) : (
         <div>
           {/* Navbar with Logout */}
-          <Navbar onNavigate={setPage} onLogout={handleLogout} currentPage={page}/>
-          
+          <Navbar
+            onNavigate={setPage}
+            onLogout={handleLogout}
+            currentPage={page}
+          />
 
           {/* Home */}
           {page === "home" && (
-            <div className="text-center" style={{paddingTop:160}}>
+            <div className="text-center" style={{ paddingTop: 160 }}>
               <h2 className="text-2xl font-bold mb-4">
                 Welcome, {user.name || "User"} 👋
               </h2>

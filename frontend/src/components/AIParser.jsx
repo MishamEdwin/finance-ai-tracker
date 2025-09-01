@@ -6,7 +6,7 @@ export default function AIParser({ onParsed }) {
   const parseWithAI = async () => {
     const token = localStorage.getItem("appToken");
 
-    const res = await fetch("http://localhost:4000/api/parse-transaction", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

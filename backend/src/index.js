@@ -30,6 +30,9 @@ app.get("/health", (req, res) => res.json({ status: "ok" }));
 app.use("/auth", authRoutes);
 app.use("/api", protectedRoutes);
 app.use("/api/transactions", transactionRoutes);
+
+console.log("aiRoutes is:", aiRoutes);
+
 app.use("/api", aiRoutes);
 
 // Server start
